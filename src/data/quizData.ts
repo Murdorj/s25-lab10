@@ -2,24 +2,29 @@ import QuizQuestion from "../core/QuizQuestion";
 
 const quizData: QuizQuestion[] = [
   {
-    question: "What describes a group of objects that are treated the same way as a single instance of the same type of object?",
-    options: ["Composite", "Strategy", "Facade", "Decorator"],
-    correctAnswer: "Composite",
+    question: "What is 2 + 2?",
+    options: ["3", "4", "5", "6"],
+    correctAnswer: "4",
   },
   {
-    question: "What add behavior to an individual object, dynamically, without affecting the behavior of other objects from the same class?",
-    options: ["Adapter", "Decorator", "Facade", "Strategy"],
-    correctAnswer: "Decorator",
+    question: "Which of these is a fruit?",
+    options: ["Carrot", "Apple", "Potato", "Cucumber"],
+    correctAnswer: "Apple",
   },
   {
-    question: "Which pattern enables selecting an algorithm at runtime by providing a corresponding object implementing the algorithm?",
-    options: ["Adapter", "Iterator", "Strategy", "Composite"],
-    correctAnswer: "Strategy",
+    question: "Which color is the sky on a clear day?",
+    options: ["Red", "Blue", "Green", "Yellow"],
+    correctAnswer: "Blue",
   },
   {
-    question: "Which of the following traverse a container and access the container's elements without knowing the internals of the container?",
-    options: ["Strategy", "Adapter", "Composite", "Iterator"],
-    correctAnswer: "Iterator",
+    question: "What is the opposite of 'hot'?",
+    options: ["Cold", "Warm", "Burning", "Freezing"],
+    correctAnswer: "Cold",
+  },
+  {
+    question: "Which of these is a type of animal?",
+    options: ["Tiger", "Banana", "Table", "Shoe"],
+    correctAnswer: "Tiger",
   },
 ];
 

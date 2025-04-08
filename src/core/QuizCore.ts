@@ -16,11 +16,10 @@ class QuizCore {
 
   /**
    * Constructor
-   * @param filePath - The file path to a JSON file containing quiz data.
-   * @param callback - A callback function called when the quiz data is loaded.
+   * Initializes the quiz with questions and sets the initial state.
    */
   constructor() {
-    this.questions = quizData;
+    this.questions = quizData; // Assuming quizData is an array of questions
     this.currentQuestionIndex = 0;
     this.score = 0;
   }
@@ -30,7 +29,6 @@ class QuizCore {
    * @returns The current question or null if no questions are available.
    */
   public getCurrentQuestion(): QuizQuestion | null {
-    // Returns the current quiz question.
     if (this.currentQuestionIndex >= 0 && this.currentQuestionIndex < this.questions.length) {
       return this.questions[this.currentQuestionIndex];
     }
@@ -40,8 +38,10 @@ class QuizCore {
   /**
    * Move to the next question.
    */
-  public nextQuestion(): void {      
-    this.currentQuestionIndex++;
+  public nextQuestion(): void {
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+    }
   }
 
   /**
@@ -58,7 +58,6 @@ class QuizCore {
    * @param answer - The user's answer.
    */
   public answerQuestion(answer: string): void {
-    // Records the user's answer and updates the score if the answer is correct.
     const currentQuestion = this.getCurrentQuestion();
     if (currentQuestion && answer === currentQuestion.correctAnswer) {
       this.score++;

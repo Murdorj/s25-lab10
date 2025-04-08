@@ -1,53 +1,61 @@
-import React, { useState } from 'react'
-import './Quiz.css'
+import React, { useState, useEffect } from 'react';
+import './Quiz.css';
+import QuizCore from '../core/QuizCore';
 import QuizQuestion from '../core/QuizQuestion';
 
-interface QuizState {
-  questions: QuizQuestion[]
-  currentQuestionIndex: number
-  selectedAnswer: string | null
-  score: number
-}
-
 const Quiz: React.FC = () => {
-  const initialQuestions: QuizQuestion[] = [
-    {
-      question: 'What is the capital of France?',
-      options: ['London', 'Berlin', 'Paris', 'Madrid'],
-      correctAnswer: 'Paris',
-    },
-  ];
-  const [state, setState] = useState<QuizState>({
-    questions: initialQuestions,
-    currentQuestionIndex: 0,  // Initialize the current question index.
-    selectedAnswer: null,  // Initialize the selected answer.
-    score: 0,  // Initialize the score.
-  });
+  const [quizCore, setQuizCore] = useState<QuizCore | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [score, setScore] = useState<number>(0);
+  const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const newQuizCore = new QuizCore();
+    setQuizCore(newQuizCore);
+  }, []);
 
   const handleOptionSelect = (option: string): void => {
-    setState((prevState) => ({ ...prevState, selectedAnswer: option }));
-  }
-
+    setSelectedAnswer(option);
+  };
 
   const handleButtonClick = (): void => {
-    // Task3: Implement the logic for button click, such as moving to the next question.
-  } 
+    if (quizCore) {
+      // Record the user's answer
+      quizCore.answerQuestion(selectedAnswer || '');
 
-  const { questions, currentQuestionIndex, selectedAnswer, score } = state;
-  const currentQuestion = questions[currentQuestionIndex];
+      // Update score after answering the question
+      setScore(quizCore.getScore());
 
-  if (!currentQuestion) {
+      // Move to the next question
+      if (quizCore.hasNextQuestion()) {
+        quizCore.nextQuestion();
+      } else {
+        setQuizCompleted(true); // Finish the quiz if no next question
+      }
+
+      // Reset the selected answer for the next question
+      setSelectedAnswer(null);
+    }
+  };
+
+  if (quizCompleted) {
     return (
       <div>
         <h2>Quiz Completed</h2>
-        <p>Final Score: {score} out of {questions.length}</p>
+        <p>Final Score: {score} out of {quizCore?.getTotalQuestions()}</p>
       </div>
     );
   }
 
+  const currentQuestion = quizCore?.getCurrentQuestion();
+
+  if (!currentQuestion) {
+    return <div>Loading question...</div>;
+  }
+
   return (
     <div>
-      <h2>Quiz Question:</h2>
+      <h2>Quiz Question {quizCore.currentQuestionIndex + 1}:</h2>
       <p>{currentQuestion.question}</p>
     
       <h3>Answer Options:</h3>
